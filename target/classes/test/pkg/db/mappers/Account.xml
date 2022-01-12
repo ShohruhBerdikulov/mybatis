@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="test.pkg.db.mappers.Account">
+    <select id="selectUserById" resultType="AppUser" parameterType="AppUser">
+        SELECT *
+        FROM appuser
+        WHERE forename = #{forename}
+          AND lastname = #{lastname}
+    </select>
+
+    <delete id="deleteUserById" parameterType="Long">
+        delete
+        from appuser
+        where id =#{i_id}
+    </delete>
+
+    <insert id="insertAppUser" parameterType="AppUser">
+        <selectKey resultType="long" keyColumn="id" keyProperty="id" order="BEFORE" >
+           select nextval('appuser_id_seq')
+        </selectKey>
+
+        insert into appuser (id, forename, lastname, email, phone)
+        values (#{id}, #{forename}, #{lastname}, #{email}, #{phone})
+    </insert>
+
+    <update id="updateByUserId" parameterType="AppUser">
+        update appuser
+        <set>
+            <if test="email !=null">email=#{email},</if>
+        </set>
+    </update>
+
+    <select id="findAllByIds" parameterType="List" resultType="AppUser">
+        select *
+        from appuser
+        <where>
+            <foreach collection="list" index="index" item="item" nullable="true" open="id in(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

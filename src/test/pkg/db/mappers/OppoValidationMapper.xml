@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="test.pkg.db.mappers.OppoValidationMapper">
+    <insert id="insertOppoList" parameterType="list">
+        <foreach collection="list"
+                 open="insert into oppo_validation (oppo_id,name ,minimum,maximum, test.pkg.soapfile.bir.Types, status,phone_number,has_sms) values ("
+                 item="item"
+                 separator="),(" close=")">
+         #{item.oppoId},#{item.name },#{item.minimum},#{item.maximum}, #{item.payTypes}, #{item.status},#{item.phoneNum},#{item.hasSms}
+        </foreach>
+    </insert>
+
+    <insert id="insertOppo" parameterType="OppoValidation">
+        <selectKey resultType="long" keyColumn="id" keyProperty="id" order="BEFORE">
+            select nextval('oppo_validation_id_seq')
+        </selectKey>
+        insert into oppo_validation (id,oppo_id,name ,minimum,maximum, test.pkg.soapfile.bir.Types, status,phone_number,has_sms)
+        values (#{id},#{oppoId},#{name },#{minimum},#{maximum}, #{payTypes}, #{status},#{phoneNum},#{hasSms})
+    </insert>
+</mapper>

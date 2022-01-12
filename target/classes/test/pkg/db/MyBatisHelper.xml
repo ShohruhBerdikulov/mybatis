@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="Config.properties" />
+
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="aggressiveLazyLoading" value="true" />
+        <setting name="multipleResultSetsEnabled" value="true" />
+        <setting name="useColumnLabel" value="true" />
+        <setting name="useGeneratedKeys" value="false" />
+        <setting name="autoMappingBehavior" value="PARTIAL" />
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="safeRowBoundsEnabled" value="false" />
+        <setting name="mapUnderscoreToCamelCase" value="false" />
+        <setting name="localCacheScope" value="SESSION" />
+        <setting name="jdbcTypeForNull" value="NULL" />
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+        <setting name="logImpl" value="SLF4J" />
+    </settings>
+
+    <typeAliases>
+        <package name="test.pkg.bean" />
+    </typeAliases>
+
+    <environments default="mybatis_pool">
+        <environment id="mybatis_pool">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${database.driver}" />
+                <property name="url" value="${database.url}" />
+                <property name="username" value="${database.username}" />
+                <property name="password" value="${database.password}" />
+                <property name="poolMaximumActiveConnections" value="${database.maximumActiveConnections}" />
+                <property name="poolMaximumIdleConnections" value="${database.maximumIdleConnections}" />
+                <property name="poolMaximumCheckoutTime" value="${database.maximumCheckoutTime}" />
+                <property name="poolTimeToWait" value="${database.maximumWait}" />
+            </dataSource>
+        </environment>
+        <environment id="mybatis_unpooled">
+            <transactionManager type="JDBC" />
+            <dataSource type="UNPOOLED">
+                <property name="driver" value="${database.driver}" />
+                <property name="url" value="${database.url}" />
+                <property name="username" value="${database.username}" />
+                <property name="password" value="${database.password}" />
+                <property name="defaultNetworkTimeout" value="${database.maximumWait}" />
+                <property name="driver.encoding" value="UTF-8" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="Postgres" value="postgres" />
+    </databaseIdProvider>
+
+    <mappers>
+        <mapper resource="test/pkg/db/mappers/Account.xml" />
+        <mapper resource="test/pkg/db/mappers/OppoValidationMapper.xml" />
+    </mappers>
+</configuration>
